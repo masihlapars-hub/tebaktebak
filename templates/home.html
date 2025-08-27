@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Tebak Tebakan</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home-page">
+  <header>
+    <h2>Selamat Datang, {{ username }} {{ avatar }}</h2>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </header>
+
+  <h1>Selamat Datang di Tebak Tebakan!</h1>
+  <p>Pilih kategori dan tingkat kesulitan untuk mulai bermain</p>
+
+  <div class="category-container">
+    <div class="card">
+      <img src="{{ url_for('static', filename='img/ipa.png') }}" alt="IPA">
+      <h3>IPA</h3>
+      <p>Ilmu Pengetahuan Alam</p>
+      <button>Mudah</button><button>Normal</button><button>Sulit</button>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='img/ips.png') }}" alt="IPS">
+      <h3>IPS</h3>
+      <p>Ilmu Pengetahuan Sosial</p>
+      <button>Mudah</button><button>Normal</button><button>Sulit</button>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='img/cpns.png') }}" alt="CPNS">
+      <h3>CPNS</h3>
+      <p>Tes CPNS</p>
+      <button>Mudah</button><button>Normal</button><button>Sulit</button>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='img/utbk.png') }}" alt="UTBK">
+      <h3>UTBK</h3>
+      <p>Ujian Tulis Berbasis Komputer</p>
+      <button>Mudah</button><button>Normal</button><button>Sulit</button>
+    </div>
+  </div>
+</body>
+</html>

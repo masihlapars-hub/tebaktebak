@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="admin-page">
+
+  <header>
+    <h1>📊 Admin Panel</h1>
+    <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+  </header>
+
+  <section class="form-add">
+    <h2>➕ Tambah Kategori</h2>
+    <form action="{{ url_for('add_category') }}" method="POST" enctype="multipart/form-data" class="form-grid">
+      <input type="text" name="name" placeholder="Nama Kategori" required>
+      <input type="text" name="desc" placeholder="Deskripsi" required>
+      <input type="file" name="image" accept="image/*">
+      <button type="submit" class="btn-primary">Tambah</button>
+    </form>
+  </section>
+
+  <hr>
+
+  <section class="list-categories">
+    <h2>📂 Daftar Kategori</h2>
+    <div class="grid-cards">
+      {% for cat in categories %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='img/' + cat.img) }}" alt="{{ cat.name }}">
+        <h3>{{ cat.name }}</h3>
+        <p>{{ cat.desc }}</p>
+        <div class="actions">
+          <a href="{{ url_for('edit_category', index=loop.index0) }}" class="btn-edit">✏️ Edit</a>
+          <a href="{{ url_for('delete_category', index=loop.index0) }}" class="btn-delete" onclick="return confirm('Hapus kategori ini?')">🗑️ Hapus</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Tebak Gerhana</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="admin-page">
+  <header>
+    <h1>📊 Admin Panel - Tebak Gerhana</h1>
+    <div>
+      <a href="{{ url_for('admin_logout') }}" class="btn-logout">Logout Admin</a>
+      <a href="{{ url_for('home') }}" class="btn-back">Lihat Site</a>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <!-- Tab Navigation -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" onclick="openTab('categories')">Kategori</button>
+      <button class="tab-btn" onclick="openTab('questions')">Soal</button>
+      <button class="tab-btn" onclick="openTab('avatars')">Avatar</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <!-- Kategori Tab -->
+      <div id="categories" class="tab-pane active">
+        <h2>➕ Tambah Kategori Baru</h2>
+        <form action="{{ url_for('add_category') }}" method="POST" enctype="multipart/form-data" class="form-grid">
+          <input type="text" name="name" placeholder="Nama Kategori" required>
+          <input type="text" name="desc" placeholder="Deskripsi" required>
+          <input type="file" name="image" accept="image/*" required>
+          <button type="submit" class="btn-primary">Tambah Kategori</button>
+        </form>
+
+        <h2>📂 Daftar Kategori</h2>
+        <div class="grid-cards">
+          {% for cat in categories %}
+          <div class="card">
+            <img src="{{ url_for('static', filename='img/' + cat.img) }}" alt="{{ cat.name }}">
+            <h3>{{ cat.name }}</h3>
+            <p>{{ cat.desc }}</p>
+            <div class="actions">
+              <a href="{{ url_for('edit_category', index=loop.index0) }}" class="btn-edit">✏️ Edit</a>
+              <a href="{{ url_for('delete_category', index=loop.index0) }}" class="btn-delete" onclick="return confirm('Hapus kategori ini?')">🗑️ Hapus</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Soal Tab -->
+      <div id="questions" class="tab-pane">
+        <h2>➕ Tambah Soal Baru</h2>
+        <form action="{{ url_for('add_question') }}" method="POST" class="form-grid">
+          <select name="category" required>
+            <option value="">Pilih Kategori</option>
+            {% for cat in categories %}
+            <option value="{{ cat.name }}">{{ cat.name }}</option>
+            {% endfor %}
+          </select>
+          
+          <select name="difficulty" required>
+            <option value="">Pilih Tingkat Kesulitan</option>
+            <option value="mudah">Mudah</option>
+            <option value="normal">Normal</option>
+            <option value="sulit">Sulit</option>
+          </select>
+          
+          <textarea name="question_text" placeholder="Teks pertanyaan" required rows="3"></textarea>
+          
+          <input type="text" name="option1" placeholder="Opsi Jawaban 1" required>
+          <input type="text" name="option2" placeholder="Opsi Jawaban 2" required>
+          <input type="text" name="option3" placeholder="Opsi Jawaban 3" required>
+          <input type="text" name="option4" placeholder="Opsi Jawaban 4" required>
+          
+          <select name="correct_answer" required>
+            <option value="">Pilih Jawaban Benar</option>
+            <option value="0">Opsi 1</option>
+            <option value="1">Opsi 2</option>
+            <option value="2">Opsi 3</option>
+            <option value="3">Opsi 4</option>
+          </select>
+          
+          <button type="submit" class="btn-primary">Tambah Soal</button>
+        </form>
+
+        <h2>📝 Daftar Soal</h2>
+        <div class="questions-list">
+          {% for question in questions %}
+          <div class="question-item">
+            <h4>{{ question.category }} - {{ question.difficulty|capitalize }}</h4>
+            <p>{{ question.question_text }}</p>
+            <ol>
+              {% for option in question.options %}
+              <li class="{{ 'correct' if loop.index0 == question.correct_answer else '' }}">{{ option }}</li>
+              {% endfor %}
+            </ol>
+            <div class="actions">
+              <a href="{{ url_for('edit_question', index=loop.index0) }}" class="btn-edit">✏️ Edit</a>
+              <a href="{{ url_for('delete_question', index=loop.index0) }}" class="btn-delete" onclick="return confirm('Hapus soal ini?')">🗑️ Hapus</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Avatar Tab -->
+      <div id="avatars" class="tab-pane">
+        <h2>➕ Tambah Avatar Baru</h2>
+        <form action="{{ url_for('add_avatar') }}" method="POST" enctype="multipart/form-data" class="form-grid">
+          <input type="text" name="name" placeholder="Nama Avatar" required>
+          
+          <div class="upload-options">
+            <h3>Pilih salah satu metode:</h3>
+            <div>
+              <label>Upload Gambar:</label>
+              <input type="file" name="avatar_file" accept="image/*">
+            </div>
+            <div class="or-separator">ATAU</div>
+            <div>
+              <label>Masukkan URL Gambar:</label>
+              <input type="url" name="avatar_url" placeholder="https://example.com/image.jpg">
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-primary">Tambah Avatar</button>
+        </form>
+
+        <h2>👤 Daftar Avatar</h2>
+        <div class="grid-cards">
+          {% for avatar in avatars %}
+          <div class="card">
+            {% if avatar.img.startswith('http') %}
+            <img src="{{ avatar.img }}" alt="{{ avatar.name }}">
+            {% else %}
+            <img src="{{ url_for('static', filename='avatars/' + avatar.img) }}" alt="{{ avatar.name }}">
+            {% endif %}
+            <h3>{{ avatar.name }}</h3>
+            <div class="actions">
+              <a href="{{ url_for('delete_avatar', index=loop.index0) }}" class="btn-delete" onclick="return confirm('Hapus avatar ini?')">🗑️ Hapus</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openTab(tabName) {
+      // Sembunyikan semua tab
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(tab => tab.classList.remove('active'));
+      
+      // Tampilkan tab yang dipilih
+      document.getElementById(tabName).classList.add('active');
+      
+      // Update tombol tab
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>

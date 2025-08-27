@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Tebak Tebakan</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <h2>Login</h2>
+    <form method="POST">
+      <input type="text" name="username" placeholder="Masukkan nama kamu" required>
+      <h3>Pilih Avatar</h3>
+      <div class="avatar-list">
+        <label><input type="radio" name="avatar" value="👩‍🎓" required> 👩‍🎓</label>
+        <label><input type="radio" name="avatar" value="👨‍🎓"> 👨‍🎓</label>
+        <label><input type="radio" name="avatar" value="🐱"> 🐱</label>
+        <label><input type="radio" name="avatar" value="🐶"> 🐶</label>
+      </div>
+      <button type="submit">Masuk</button>
+    </form>
+  </div>
+</body>
+</html>

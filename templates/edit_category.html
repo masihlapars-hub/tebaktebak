@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Kategori</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="edit-page">
+
+  <header>
+    <h1>✏️ Edit Kategori</h1>
+    <a href="{{ url_for('admin_page') }}" class="btn-back">⬅ Kembali</a>
+  </header>
+
+  <form method="POST" enctype="multipart/form-data" class="form-grid">
+    <input type="text" name="name" value="{{ category.name }}" required>
+    <input type="text" name="desc" value="{{ category.desc }}" required>
+
+    <div class="current-img">
+      <label>Gambar Saat Ini:</label><br>
+      <img src="{{ url_for('static', filename='img/' + category.img) }}" width="120">
+    </div>
+
+    <label>Upload Gambar Baru (opsional):</label>
+    <input type="file" name="image" accept="image/*">
+
+    <button type="submit" class="btn-primary">💾 Simpan Perubahan</button>
+  </form>
+
+</body>
+</html>

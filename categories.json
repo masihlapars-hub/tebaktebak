@@ -1,0 +1,32 @@
+[
+  {
+    "name": "IPA",
+    "desc": "Ilmu Pengetahuan Alam",
+    "img": "ipa.png"
+  },
+  {
+    "name": "IPS",
+    "desc": "Ilmu Pengetahuan Sosial",
+    "img": "ips.png"
+  },
+  {
+    "name": "CPNS",
+    "desc": "Tes CPNS",
+    "img": "cpns.png"
+  },
+  {
+    "name": "UTBK",
+    "desc": "Ujian Tulis Berbasis Komputer",
+    "img": "utbk.png"
+  },
+  {
+    "name": "Agama",
+    "desc": "Pendidikan Agama",
+    "img": "agama.png"
+  },
+  {
+    "name": "Logika",
+    "desc": "Tes Logika",
+    "img": "logika.png"
+  }
+]
